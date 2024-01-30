@@ -42,3 +42,71 @@ where month(b.order_date)=2 and year(b.order_date)=2020
 havingsum(b.unit)>100;
 -----ex7
 SELECT a.page_id FROM pages a left join page_likes b on a.page_id = b.page_id	WHERE b.liked_date is null order by a.page_id ;
+----------------------------------------Mid course test
+--------Question 1
+select min(replacement_cost) from film;
+--------Question 2
+select sum(case when replacement_cost>=9.99 and replacement_cost<=19.99 then 1 else 0 end) from film;
+--------Question 3
+select a.title, a.length,c.name 
+from film a 
+join film_category b 
+on a.film_id = b.film_id
+join category c
+on b.category_id = c.category_id 
+and (c.name like 'Drama' or c.name like 'Sports')
+order by a.length desc
+limit 1;
+--------Question 4
+select c.name,count(distinct a.title) 
+from film a 
+join film_category b 
+on a.film_id = b.film_id
+join category c
+on b.category_id = c.category_id 
+group by c.name
+order by count(distinct a.title)  desc
+limit 1;
+--------Question 5
+select c.first_name ||' '|| c.last_name, count(distinct film_id)
+from film_actor b 
+join actor c
+on b.actor_id = c.actor_id
+group by c.first_name ||' '|| c.last_name
+order by count(distinct film_id) desc
+limit 1;
+--------Question 6
+select 
+	count(*)
+from customer a 
+right join address b 
+on a.address_id = b.address_id
+where a.customer_id is null;
+--------Question 7
+select 
+	a.city,sum(d.amount)
+from city a
+join address b
+on a.city_id = b.city_id
+join customer c
+on b.address_id = c.address_id
+join payment d
+on c.customer_id = d.customer_id
+group by city
+order by sum(d.amount) desc
+limit 1;
+--------Question 8
+select 
+	a.city||','||e.country,sum(d.amount)
+from city a
+join address b
+on a.city_id = b.city_id
+join customer c
+on b.address_id = c.address_id
+join payment d
+on c.customer_id = d.customer_id
+join country e
+on a.country_id = e.country_id
+group by a.city||','||e.country
+order by sum(d.amount) desc
+limit 1;
